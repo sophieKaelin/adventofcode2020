@@ -10,8 +10,7 @@ for line in inFile:
     entry = line.replace("\n","").replace(".", "").replace(" bags", "").replace(" bag", "")
     values = re.split(" contain |, ", entry)
     if values[1] != "no other": # Don't bother putting bags into the list that don't have anything in it
-        data1[values[0].replace(" bags", "")] = []
-        data2[values[0].replace(" bags", "")] = []
+        data1[values[0]], data2[values[0]] = [], []
         for x in range(1, len(values)):
             data1[values[0]].append(values[x][2:])
             data2[values[0]].append([values[x][0], values[x][2:]])
@@ -44,4 +43,4 @@ def nextBag(toCheck, data):
             total += int(bags[0]) * nextBag(bags[1], data)
         return total
 
-print("The shiny gold bag contains " + str(nextBag("shiny gold", data2)) + " bags (including itself)")
+print("The shiny gold bag contains " + str(nextBag("shiny gold", data2) - 1) + " bags")
