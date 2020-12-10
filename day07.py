@@ -1,29 +1,27 @@
 import re
 
-inFile = open("input/day07.txt")
 myList = []
+data1, data2 = {}, {}
 
-for line in inFile:
-    myList.append(line.replace("\n","").replace(".", "").replace(" bags", "").replace(" bag", ""))
-
-print("===== PART 1 =====")
-data1 = {}
-data2 = {}
+inFile = open("input/day07.txt")
 
 # Enter data into dictionary
-for entry in myList:
+for line in inFile:
+    entry = line.replace("\n","").replace(".", "").replace(" bags", "").replace(" bag", "")
     values = re.split(" contain |, ", entry)
-    if values[1] != "no other":
+    if values[1] != "no other": # Don't bother putting bags into the list that don't have anything in it
         data1[values[0].replace(" bags", "")] = []
         data2[values[0].replace(" bags", "")] = []
         for x in range(1, len(values)):
             data1[values[0]].append(values[x][2:])
             data2[values[0]].append([values[x][0], values[x][2:]])
 
+print("===== PART 1 =====")
 toCheck = ["shiny gold"]
 checked = []
 
 # Check through all the bags that contain silver gold or contain a bag that contains silver gold etc.
+# Pretty ineffecient, but it does the job for a small input file
 while len(toCheck) > 0:
     for item in data1:
         if toCheck[0] in data1[item]:
